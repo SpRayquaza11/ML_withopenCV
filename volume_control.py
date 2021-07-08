@@ -18,6 +18,7 @@ while True:
     success, img = cap.read()
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
+    print(lmList)
 
 
     cTime = time.time()
