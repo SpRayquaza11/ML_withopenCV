@@ -4,11 +4,11 @@ import time
 import cv2
 import math
 
-##wCam, hCam = 680, 480
+wCam, hCam = 1980, 1080
 
-cap = cv2.VideoCapture(1)
-#cap.set(3, wCam)
-#cap.set(4, hCam)
+cap = cv2.VideoCapture(0)
+cap.set(3, wCam)
+cap.set(4, hCam)
 
 
 while True:
