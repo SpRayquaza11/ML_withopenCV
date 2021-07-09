@@ -32,6 +32,7 @@ while True:
         length = math.hypot(x - a, y - b)
         print(length)
 
+
     cTime = time.time()
     fps = 1 / (cTime - pTime)
     pTime = cTime
