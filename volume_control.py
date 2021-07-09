@@ -3,6 +3,9 @@ import handtrackingmodule as hm
 import time
 import cv2
 import math
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 wCam, hCam = 1980, 1080
 
@@ -13,13 +16,22 @@ pTime = 0
 
 detector = hm.handDetector()
 
+devices = AudioUtilities.GetSpeakers()
+interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+volume = cast(interface, POINTER(IAudioEndpointVolume))
+volRange = volume.GetVolumeRange()
+
+
+MinVol = volRange[0]
+MaxVol = volRange[1]
+
 
 while True:
     success, img = cap.read()
     img = detector.findHands(img)
     lmList = detector.findPosition(img, draw=False)
     if len(lmList) != 0:
-        print(lmList[4], lmList[8])
 
         a, b = lmList[4][1], lmList[4][2]
         x, y = lmList[8][1], lmList[8][2]
@@ -32,6 +44,8 @@ while True:
         length = math.hypot(x - a, y - b)
         print(length)
 
+        vol = np.interp(length, [40, 210], [MinVol, MaxVol])
+        volume.SetMasterVolumeLevel(vol, None)
 
     cTime = time.time()
     fps = 1 / (cTime - pTime)
