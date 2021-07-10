@@ -7,3 +7,6 @@ Requires 5 main dependancies
 3)pycaw
 4)math
 5)numpy
+
+
+Credits to Murtaza's Workshop Robotics And AI 
